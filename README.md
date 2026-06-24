@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book 4 Lesson 7-9 英語單字複習</title>
+    <title>極致英語單字閃卡系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -39,6 +39,46 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #64748b; /* bg-slate-500 */
+        }
+
+
+        /* GitHub Pages fallback: keep the dynamically generated vocabulary list dark
+           even if Tailwind CDN misses JS-created table row classes. */
+        #panel-list table {
+            background-color: #1e293b; /* slate-800 */
+        }
+        #panel-list thead tr {
+            background-color: #020617 !important; /* slate-950 */
+            color: #cbd5e1 !important; /* slate-300 */
+        }
+        #vocab-table-body {
+            background-color: #1e293b !important; /* slate-800 */
+        }
+        #vocab-table-body tr,
+        #vocab-table-body td {
+            background-color: inherit !important;
+        }
+        #vocab-table-body tr:nth-child(odd) {
+            background-color: #1e293b !important; /* slate-800 */
+        }
+        #vocab-table-body tr:nth-child(even) {
+            background-color: #0f172a !important; /* slate-900 */
+        }
+        #vocab-table-body tr:hover {
+            background-color: #162033 !important;
+        }
+        #vocab-table-body td {
+            border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        #vocab-table-body td:nth-child(2) {
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+        #vocab-table-body td:nth-child(3) {
+            color: #cbd5e1 !important;
+        }
+        #vocab-table-body button {
+            color: inherit;
         }
     </style>
 </head>
@@ -857,9 +897,11 @@
 
             listPool.forEach((item, index) => {
                 const tr = document.createElement('tr');
-                // 奇偶數列採用 bg-slate-800 與 bg-slate-900 固體純色，保證文字清晰度達 AAA 規格
-                const rowBg = index % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900';
-                tr.className = `${rowBg} hover:bg-slate-850 transition-colors border-b border-slate-750/50`;
+                // GitHub Pages fallback: use both Tailwind classes and direct inline background colors.
+                // This prevents JS-generated table rows from turning white if Tailwind CDN misses dynamic classes.
+                const rowBgColor = index % 2 === 0 ? '#1e293b' : '#0f172a';
+                tr.className = `transition-colors border-b border-slate-700/50`;
+                tr.style.backgroundColor = rowBgColor;
 
                 // 檢查星號與學會狀態
                 const isStarred = userStarredWords.includes(item.word);
@@ -879,8 +921,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                         </button>
                     </td>
-                    <td class="py-3.5 px-6 font-bold text-white text-base tracking-wide">${item.word}</td>
-                    <td class="py-3.5 px-6 text-slate-300 text-sm whitespace-pre-line leading-relaxed">${item.meaning}</td>
+                    <td class="py-3.5 px-6 font-bold text-white text-base tracking-wide" style="color:#ffffff;">${item.word}</td>
+                    <td class="py-3.5 px-6 text-slate-300 text-sm whitespace-pre-line leading-relaxed" style="color:#cbd5e1;">${item.meaning}</td>
                     <td class="py-3.5 px-4 text-center">
                         <button onclick="toggleListWordStar(event, '${item.word}')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-all ${starColorClass}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="${starIconFill}" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
